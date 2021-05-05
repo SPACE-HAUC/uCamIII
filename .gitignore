@@ -1,2 +1,4 @@
-libs/
-bin/
+**/*.o
+**/*.out
+**/*.jpeg
+**/*.jpg
