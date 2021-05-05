@@ -1,43 +1,22 @@
-INC_DIR := inc
 SRC_DIR := src
-BIN_DIR := bin
-LIB_DIR = libs
-
 CC ?= gcc
-CFLAGS := -Wall -g
-CPPFLAGS := -I$(INC_DIR) -MMD -MP
-LFLAGS =
-LIBS =
+CFLAGS := -Wall -O2 -I inc/
 
 SRC := $(wildcard $(SRC_DIR)/*.c)
-OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-LIB = $(SRC:$(SRC_DIR)/%.c=$(LIB_DIR)/lib%.a)
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(SRC_DIR)/%.o)
 
 # define the executable file
 MAIN =test.c
-EXEC =$(BIN_DIR)/test
-
-####
+EXEC =test.out
 
 .PHONY:	depend clean
 
-all:	$(EXEC) $(LIB)
+all:	$(EXEC) $OBJ)
 
-$(LIB): $(OBJ)
-	@mkdir -p $(LIB_DIR)
-	@$(AR) cr $@ $^
-	@echo "Archive $(notdir $@)"
-
-$(EXEC):	$(OBJ) | $(BIN_DIR)
-	$(CC) -I$(INC_DIR) $(CFLAGS) $(MAIN) -o $(EXEC) $(OBJ) $(LFLAGS) $(LIBS)
-
-$(BIN_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BIN_DIR) $(OBJ_DIR):
-	mkdir -p $@
-
-#####
+$(EXEC):	$(OBJ)
+	$(CC) $(CFLAGS) $(MAIN) -o $(EXEC) $(OBJ)
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -rv $(BIN_DIR) $(LIB_DIR)
+	$(RM) -rv $(OBJ) $(EXEC)
