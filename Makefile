@@ -11,9 +11,9 @@ EXEC =test.out
 
 .PHONY:	depend clean
 
-all:	$(EXEC) $OBJ)
+all:	$(EXEC)
 
-$(EXEC):	$(OBJ)
+$(EXEC): $(OBJ)
 	$(CC) $(CFLAGS) $(MAIN) -o $(EXEC) $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
